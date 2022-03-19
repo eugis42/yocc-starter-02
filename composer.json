@@ -1,0 +1,9 @@
+{
+    "name": "eugis42/yocc-starter-02",
+    "extra": {
+        "statamic": {
+            "name": "Yocc Starter 02",
+            "description": "Yocc Starter 02 starter kit"
+        }
+    }
+}

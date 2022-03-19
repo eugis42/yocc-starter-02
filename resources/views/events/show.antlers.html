@@ -1,0 +1,46 @@
+{{ cover_image }}
+    <div id="cover-image" class="w-full h-almost-screen overflow-hidden bg-cover bg-center" style="background-image: url('{{ url }}')">
+    </div>
+{{ /cover_image }}
+
+<div class="container p-5 mx-auto">
+
+    <span class="aspect-[4/5] max-h-80 mx-auto flex flex-col text-center p-4 my-5 relative overflow-hidden transition-all -mt-20 mb-10 {{ if multiple_day_event and event_end | is_before:now or !multiple_day_event and event_start | is_before:now }}grayscale{{ /if }}" style="background: radial-gradient(circle at center 120%, {{gradient_color_bottom}} 10%, {{gradient_color_middle}} 40%, {{gradient_color_middle}} 50%, {{gradient_color_top}} 100%);">
+        <span class="flex-none justify-self-start text-2xl leading-tight mb-3">
+            {{ if multiple_day_event }}
+                {{ if event_end | is_today }}
+                    {{ if site=="en" }} Ends today {{ else  }} Končí dnes {{ /if }}
+                {{ else }}
+                    {{ event_start format="d / m / Y" }} —<br/>{{ event_end format="d / m / Y" }}
+                {{ /if }}
+            {{ else }}
+                {{ if event_start | is_today }}
+                    {{ if site=="en" }} Today {{ else  }} Dnes {{ /if }}
+                {{ else }}
+                    {{ event_start format="d / m / Y" }}
+                {{ /if }}
+            {{ /if }} 
+        </span>
+        <span class="flex-auto"></span>
+        <span class="flex-none justify-self-end inline-block align-bottom text-blue text-3xl leading-none">
+            <h1>{{ event_type }}{{ title }}{{ /event_type }}: {{ title }}</h1>
+        </span>
+        <span class="flex-none justify-self-end text-xl mt-3 leading-tight">
+            {{ if online_event }} Online {{ else  }} {{ location }} {{ /if }}
+        </span>
+    </span>
+    {{ if link | is_blank }}{{ else }} 
+        <div class="text-center mb-10">
+            <a class="text-3xl text-blue after:content-['_↗']" href="{{ link-section }}">{{ link_text }}</a>
+        </div>
+    {{ /if }}
+    <div class="text-3xl mb-10">
+        {{ perex }}
+    </div>  
+    <div class="prose-xl prose-headings:font-normal prose-p:font-karma prose-ul:list-disc prose-ol:list-decimal prose-blockquote:text-blue prose-blockquote:text-3xl prose-a:text-blue prose-a:underline !leading-snug">
+        {{ content }}
+    </div>
+    <div class="prose mt-10 font-greed prose-a:text-blue !leading-snug">
+        {{ event_credits }}
+    </div>
+</div>

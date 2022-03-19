@@ -1,0 +1,24 @@
+{{ cover_image }}
+    <div id="cover-image" class="w-full h-almost-screen overflow-hidden bg-cover bg-center" style="background-image: url('{{ url }}')">
+    </div>
+{{ /cover_image }}
+
+<div class="container p-5 mx-auto">
+    <h1 class="text-5xl md:text-7xl lg:text-8xl text-center mt-16">{{ title }}</h1>
+    <div class="text-3xl mt-16 mb-10">
+        {{ perex }}
+    </div>  
+    <div class="prose-xl prose-headings:font-normal prose-p:font-karma prose-ul:list-disc prose-ol:list-decimal prose-blockquote:text-blue prose-blockquote:text-3xl prose-a:text-blue prose-a:underline !leading-snug">
+        {{ content }}
+    </div>
+    <div class="prose mt-16 mx-auto max-w-sm font-greed prose-a:text-blue !leading-snug text-center">
+        <p>{{ if site=="en" }}Published {{ else }}Publikované {{ /if }}{{ date }}</p>
+        {{ author }}
+            <p>{{ if site=="en" }}Author: {{ else }}Autor {{ /if }}<br/>{{ title }}</p>
+            <p>{{ bio }}</p>
+            {{ if contact_email }}
+            <p>{{ if site=="en" }}Feel like discussing the topic?{{ else }}Chcete diskutovať o tejto téme?{{ /if }}<br/><a href="mailto:{{ contact_email }}">{{ if site=="en" }}Send {{ title }} an email.{{ else }}Pošlite email autorovi/autorke {{ title }}.{{ /if }}</a></p>
+            {{ /if }}
+        {{ /author }}
+    </div>
+</div>

@@ -1,0 +1,102 @@
+<div id="hero" class="absolute top-0 w-full h-screen -z-10 overflow-hidden border-b border-black">
+    <div id="hero-gradient" class="w-full h-full"></div>
+</div>
+<div class="container mx-auto px-5 h-screen pt-24 pb-10 flex flex-col gap-y-5">
+    {{ if site=="en" }}
+        {{ asset url="/assets/template-images/hero-headline_sm.svg" }}
+            <img class="w-full max-h-full py-5 place-self-center flex-auto md:hidden" src="{{ url }}" alt="{{ alt }}">
+        {{ /asset }}
+        {{ asset url="/assets/template-images/hero-headline_xl.svg" }}
+            <img class="w-full max-h-full py-5 place-self-center flex-auto hidden md:inline xl:hidden" src="{{ url }}" alt="{{ alt }}">
+        {{ /asset }}
+        {{ asset url="/assets/template-images/hero-headline_2xl.svg" }}
+            <img class="w-full max-h-full py-5 place-self-center flex-auto hidden xl:inline" src="{{ url }}" alt="{{ alt }}">
+        {{ /asset }}
+    {{ else  }}
+        {{ asset url="/assets/template-images/hero-headline_sm-sk.svg" }}
+            <img class="w-full max-h-full py-5 place-self-center flex-auto md:hidden" src="{{ url }}" alt="{{ alt }}">
+        {{ /asset }}
+        {{ asset url="/assets/template-images/hero-headline_xl-sk.svg" }}
+            <img class="w-full max-h-full py-5 place-self-center flex-auto hidden md:inline" src="{{ url }}" alt="{{ alt }}">
+        {{ /asset }}
+    {{ /if }}
+    <p class="text-xl text-center">
+        {{ if site=="en" }}
+            View <a class="underline" href="#events-block">upcoming events</a> or browse through  <a class="underline" href="#articles-block">the articles</a>.
+        {{ else }}
+            Pozrite si <a class="underline" href="#events-block">najbližšie udalosti</a> alebo si prečítajte <a class="underline" href="#articles-block">články</a>.
+        {{ /if }}
+    </p>
+</div>
+<div class="container mx-auto px-5 pt-16">
+
+    <h2 class="text-4xl text-center mb-10">{{ if site=="en" }}Upcoming events{{ else  }}Najbližšie udalosti{{ /if }}</h2>
+
+    <ul class="md:grid md:grid-cols-3 md:gap-5">
+        {{ collection:events limit="3" sort="event_start" event_start:is_after="{now}" }}
+                        <li class="aspect-[4/5] max-h-80 mx-auto">
+                            <a href="{{ url }}">
+                                <span class="w-full h-full flex flex-col text-center p-4 my-5 relative overflow-hidden group transition-all hover:scale-95" style="background: radial-gradient(circle at center 120%, {{gradient_color_bottom}} 10%, {{gradient_color_middle}} 40%, {{gradient_color_middle}} 50%, {{gradient_color_top}} 100%);">
+                                    <span class="flex-none justify-self-start text-2xl leading-tight mb-3">
+                                        {{ if multiple_day_event }}
+                                            {{ if event_end | is_today }}
+                                                {{ if site=="en" }} Ends today {{ else  }} Končí dnes {{ /if }}
+                                            {{ elseif event_end | is_after:now }}
+                                                {{ event_start format="d / m / Y" }} —<br/>{{ event_end format="d / m / Y" }}
+                                            {{ /if }}
+                                        {{ else }}
+                                            {{ if event_start | is_today }}
+                                                {{ if site=="en" }} Today {{ else  }} Dnes {{ /if }}
+                                            {{ elseif event_start | is_after:now }}
+                                                {{ event_start format="d / m / Y" }}
+                                            {{ /if }}
+                                        {{ /if }} 
+                                    </span>
+                                    <span class="flex-auto"></span>
+                                    <span class="flex-none justify-self-end inline-block align-bottom text-blue text-3xl leading-none">
+                                        {{ event_type }}{{ title }}{{ /event_type }}: {{ title }}
+                                    </span>
+                                    <span class="flex-none justify-self-end text-xl mt-3 leading-tight">
+                                        {{ if online_event }} Online {{ else  }} {{ location }} {{ /if }}
+                                    </span>
+                                    <span class="absolute top-0 left-0 w-full h-full -translate-y-full group-hover:translate-y-0 transition-all" style="background: url('{{ cover_image }}{{ url }}{{ /cover_image }}') no-repeat center; background-size: cover;">
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+        {{ /collection:events }}
+    </ul>
+    <a class="text-4xl block mt-10 mb-16 text-blue text-center" href="{{ site }}{{ url }}{{ /site }}/calendar">{{ if site=="en" }}All events{{ else  }}Všetky udalosti{{ /if }}</a>
+
+    <h2 class="text-4xl text-center my-10">{{ if site=="en" }}Latest articles{{ else  }}Najnovšie články{{ /if }}</h2>
+
+    <ul class="md:grid md:grid-cols-3 md:gap-5">
+        {{ collection:articles sort="date:desc" limit="3" }}
+        <li class="aspect-[4/5] max-h-80 mx-auto">
+            <a href="{{ url }}">
+                <span class="w-full h-full flex flex-col text-center p-4 my-5 relative group transition-all hover:scale-95 hover: border-black border group">
+                    <span class="flex-none justify-self-end inline-block align-bottom text-blue text-3xl leading-none">
+                        {{ title }}
+                    </span>
+                    {{ asset url="/assets/template-images/document-corner.svg" }}<img class="absolute bottom-0 right-0 -mr-px -mb-px h-10 z-20" src="{{ url }}" alt="{{ alt }}">{{ /asset }}
+                    <span class="absolute top-0 left-0 w-full h-full opacity-0 group-hover:opacity-100 transition-all z-10" style="background: url('{{ cover_image }}{{ url }}{{ /cover_image }}') no-repeat center; background-size: cover;">
+                    </span>
+                </span>
+            </a>
+        </li>
+        {{ /collection:articles }}
+    </ul>
+
+    <a class="text-4xl block mt-10 mb-16 text-blue text-center" href="{{ site }}{{ url }}{{ /site }}/articles">{{ if site=="en" }}All articles{{ else  }}Všetky články{{ /if }}</a>
+
+    <h2 class="text-5xl text-center my-10">{{ if site=="en" }}We are a collective of Slovak individuals and organisations that believe creativity can help us better understand and manage climate change.{{ else  }}Sme slovenský kolektív osôb a organizácií, čo veria, že kreativita nám môže pomôcť lepšie pochopiť a zvládať klimatickú krízu.{{ /if }}</h2>
+
+    <div class="text-4xl md:text-5xl mt-10 !leading-tight md:!leading-none partners-gradient text-center">
+        {{ collection:partners}}
+            <a class="hover:text-blue" href="{{ url }}">{{ title }}{{ if last=="true" }}.{{ else }}, {{ /if }}</a>
+        {{ /collection:partners }}
+    </div>
+
+    <a class="text-4xl block mt-10 mb-16 text-blue text-center" href="{{ site }}{{ url }}{{ /site }}/about-the-project">{{ if site=="en" }}Read about the project{{ else  }}Viac o projekte{{ /if }}</a>
+
+</div>
